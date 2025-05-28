@@ -5,7 +5,7 @@ DevDetective is a responsive web application that allows users to search for Git
 
 ## 🌐 Live Demo
 
-> Coming Soon or [Link to GitHub Pages if hosted]
+> Coming Soon or [https://anubhabbiswas123.github.io/Dev-Detective-Project/]
 
 ## 📌 Features
 
