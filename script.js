@@ -57,20 +57,24 @@ btnmode.addEventListener("click", function () {
 });
 
 // Functions
+
+//API CALL
 function getUserData(gitUrl) {
   fetch(gitUrl)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      updateProfile(data);
+      updateProfile(data); //yaha par then wala cheez tabhi execute hoga fetch hone k baad
     })
     .catch((error) => {
       throw error;
     });
 }
 
+
+//RENDER
 function updateProfile(data) {
-  if (data.message !== "Not Found") {
+  if (data.message !== "Not Found") {   //console kholke dekho jab search bar mai kuch nhi daalke submit par click kiya toh waha par message mai not found likha hua aaya hai
     noresults.style.display = "none";
     function checkNull(param1, param2) {
       if (param1 === "" || param1 === null) {
@@ -105,18 +109,8 @@ function updateProfile(data) {
 }
 
 
-//dark mode default
-const prefersDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-if (localStorage.getItem("dark-mode")) {
-  darkMode = localStorage.getItem("dark-mode");
-  darkModeProperties();
-} else {
-  localStorage.setItem("dark-mode", prefersDarkMode);
-  darkMode = prefersDarkMode;
-  lightModeProperties();
-}
-
+//SWITCH TO DARK MODE - activateDarkMode()
 function darkModeProperties() {
   root.setProperty("--lm-bg", "#141D2F");
   root.setProperty("--lm-bg-content", "#1E2A47");
@@ -124,11 +118,17 @@ function darkModeProperties() {
   root.setProperty("--lm-text-alt", "white");
   root.setProperty("--lm-shadow-xl", "rgba(70,88,109,0.15)");
   modetext.innerText = "LIGHT";
-  modeicon.src = "sun-icon.svg";
+  modeicon.src = "./assets/images/sun-icon.svg";
   root.setProperty("--lm-icon-bg", "brightness(1000%)");
   darkMode = true;
-  localStorage.setItem("dark-mode", true);
+  console.log("darkmode changed to " + darkMode);
+  localStorage.setItem("dark-mode", true);  console.log("setting dark mode to false"); 
+//local storage ye dark mode by default rakhta hai when page is reloaded
+  console.log("setting dark mode to true");
+
 }
+
+//SWITCH TO LIGHT MODE - activateLightMode()
 function lightModeProperties() {
   root.setProperty("--lm-bg", "#F6F8FF");
   root.setProperty("--lm-bg-content", "#FEFEFE");
@@ -136,11 +136,46 @@ function lightModeProperties() {
   root.setProperty("--lm-text-alt", "#2B3442");
   root.setProperty("--lm-shadow-xl", "rgba(70, 88, 109, 0.25)");
   modetext.innerText = "DARK";
-  modeicon.src = "moon-icon.svg";
+  modeicon.src = "./assets/images/moon-icon.svg";
   root.setProperty("--lm-icon-bg", "brightness(100%)");
   darkMode = false;
+  console.log("darkmode changed to " + darkMode);
+
   localStorage.setItem("dark-mode", false);
+  console.log("setting dark mode to false");
 }
 
 
-getUserData(url + "AnubhabBiswas123");
+//INITIALISE UI
+function init() {
+  //initialise dark-mode variable to false;
+  //darkMode = true -> dark mode enable karna h 
+  //darMode = false -> light mode enable karna h 
+  darkMode = false;
+
+  //HW
+ const prefersDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+console.log(prefersDarkMode); //upar wala code...it checks whether the user prefers dark or light
+console.log(prefersDarkMode);
+  const value = localStorage.getItem("dark-mode");
+
+  if(value === null) {
+    console.log("null k andar");
+    localStorage.setItem("dark-mode", darkMode);
+    lightModeProperties();
+  }
+  else if(value == "true") {
+    console.log("truer k andar");
+    darkModeProperties();
+  }
+  else if(value == "false") {
+    console.log("false k andar");
+    lightModeProperties();
+  }
+
+
+  //by default, pranaygupta ki info show krre h UI pr
+  getUserData(url + "AnubhabBiswas123");
+}
+
+init();
