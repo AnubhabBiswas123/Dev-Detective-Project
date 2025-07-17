@@ -24,7 +24,6 @@ const page = get("page");
 const twitter = get("twitter");
 const company = get("company");
 let darkMode = false;
-const token = "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";
 // Event Listeners
 btnsubmit.addEventListener("click", function () {
   if (input.value !== "") {
@@ -60,18 +59,14 @@ btnmode.addEventListener("click", function () {
 
 //API CALL
 function getUserData(gitUrl) {
-  fetch(gitUrl, {
-    headers: {
-      Authorization: `token ${token}`
-    }
-  })
+  fetch(gitUrl)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      updateProfile(data);
+      updateProfile(data); //yaha par then wala cheez tabhi execute hoga fetch hone k baad
     })
     .catch((error) => {
-      console.error(error);
+      throw error;
     });
 }
 
